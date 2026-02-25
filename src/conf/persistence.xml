@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="invoicingAppPU" transaction-type="JTA">
+    <jta-data-source>java:/jboss/datasources/InvoiceDS</jta-data-source>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+        <!-- Show SQL in server log – very useful for debugging -->
+        <property name="hibernate.show_sql"                  value="true" />
+        <property name="hibernate.format_sql"                value="true" />
+
+        <!-- Log parameter values (bind variables) – extremely helpful -->
+        <property name="hibernate.use_sql_comments"          value="true" />
+
+        <!-- MySQL 8 dialect (recommended if using MySQL 8.x) -->
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" />
+
+        <!-- Optional: better batching for inserts/updates -->
+        <property name="hibernate.jdbc.batch_size"           value="50" />
+        <property name="hibernate.order_inserts"             value="true" />
+        <property name="hibernate.order_updates"             value="true" />
+        <property name="hibernate.hbm2ddl.auto"           value="validate"/>
+    </properties>
+  </persistence-unit>
+</persistence>

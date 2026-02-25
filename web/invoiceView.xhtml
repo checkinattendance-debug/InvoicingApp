@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Invoice View</title>
+    <style>
+        .company-header {
+            text-align: right;
+            padding: 15px 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            width: fit-content;
+            margin-left: auto;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .company-name {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .company-details {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+</h:head>
+
+<h:body>
+
+<h:form>
+
+<div style="width:800px;margin:auto;font-family:Arial;">
+
+    <!-- Header -->
+    <div style="background:#1f5f73;color:white;padding:20px;">
+        <h1>INVOICE</h1>
+        <div class="company-header">
+            <h2 class="company-name">#{companyBean.company.name}</h2>
+
+            <p class="company-details">
+                #{companyBean.company.streetAddress}<br/>
+                #{companyBean.company.city}<br/>
+                #{companyBean.company.email}<br/>
+                #{companyBean.company.phone}
+            </p>
+        </div>
+    </div>
+
+    <br/>
+
+    <!-- Client Section -->
+    <div style="display:flex;justify-content:space-between;">
+        <div>
+            <b>Invoice No:</b> #{invoiceBean.invoice.invoiceNumber}<br/>
+            <b>Date of Issue:</b> #{invoiceBean.invoice.issueDate}<br/>
+            <b>Due Date:</b> #{invoiceBean.invoice.dueDate}
+        </div>
+
+        <div>
+            <b>Bill To</b><br/>
+            #{invoiceBean.invoice.clientName}<br/>
+            #{invoiceBean.invoice.clientAddress}<br/>
+            #{invoiceBean.invoice.clientPhone}<br/>
+            #{invoiceBean.invoice.clientEmail}
+        </div>
+    </div>
+
+    <br/>
+
+    <!-- Items -->
+    <p:dataTable value="#{invoiceBean.invoice.items}" var="item">
+        <p:column headerText="Description">#{item.description}</p:column>
+        <p:column headerText="Hours">#{item.hours}</p:column>
+        <p:column headerText="Rate">#{item.rate}</p:column>
+        <p:column headerText="Amount">#{item.amount}</p:column>
+    </p:dataTable>
+
+    <br/>
+
+    <!-- Totals -->
+    <div style="float:right;text-align:right;">
+        Subtotal: #{invoiceBean.subtotal} <br/>
+        Discount: #{invoiceBean.invoice.discount} <br/>
+        Tax: #{invoiceBean.tax} <br/>
+        <h2>Total: #{invoiceBean.total}</h2>
+    </div>
+
+    <div style="clear:both;"></div>
+
+    <br/><br/>
+    <div style="background:#1f5f73;color:white;padding:10px;text-align:center;">
+        Thank you for your business!
+    </div>
+
+</div>
+
+</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Kamak Paperless</title>
+
+    <style>
+        body {
+            background: linear-gradient(235deg, #000000, #ff2b2b);
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #111111;
+        }
+
+        /* Main container */
+        .main-container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        /* Cards */
+        .modern-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        /* Section titles */
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 4px solid #c00000;
+            padding-left: 10px;
+        }
+
+        /* Company box */
+        .company-box {
+            text-align: right;
+            background: linear-gradient(135deg, #000000 0%, #1a0000 40%, #ff2b2b 100%);
+            color: #ffffff;
+            padding: 18px 22px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .company-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0;
+            color: #ffffff;
+        }
+
+        .company-details {
+            font-size: 13px;
+            margin-top: 6px;
+            line-height: 1.6;
+            color: #ffffff;
+        }
+
+        /* Form section wrapper */
+        .form-section {
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 20px;
+            background: #ffffff;
+        }
+
+        /* Remove PrimeFaces default panel borders */
+        .ui-panelgrid,
+        .ui-panelgrid-content {
+            border: none !important;
+            background: transparent !important;
+        }
+
+        /* 🔴 Input fields */
+        .p-inputtext,
+        .p-inputtextarea,
+        .p-calendar input {
+            border-radius: 10px !important;
+            border: 1px solid #cccccc !important;
+            background: #ffffff !important;
+            padding: 10px 14px !important;
+            box-shadow: none !important;
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Hover */
+        .p-inputtext:hover,
+        .p-inputtextarea:hover,
+        .p-calendar input:hover {
+            border-color: #c00000 !important;
+        }
+
+        /* Focus (Red Accent Glow) */
+        .p-inputtext:focus,
+        .p-inputtextarea:focus,
+        .p-calendar input:focus {
+            border-color: #c00000 !important;
+            box-shadow: 0 0 0 3px rgba(192, 0, 0, 0.15) !important;
+            outline: none !important;
+        }
+
+        /* DataTable */
+        .p-datatable {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .p-datatable thead th {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: none !important;
+        }
+
+        .p-datatable tbody tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        /* Primary button (Save) */
+        .p-button-primary {
+            background: #c00000 !important;
+            border: none !important;
+        }
+
+        .p-button-primary:hover {
+            background: #a00000 !important;
+        }
+
+        /* Add button */
+        .p-button-success {
+            background: #000000 !important;
+            border: none !important;
+            color: #f8f8f8;
+        }
+
+        .p-button-success:hover {
+            background: #333333 !important;
+        }
+
+        /* Save button sizing */
+        .save-btn {
+            width: 100%;
+            height: 50px;
+            font-size: 16px;
+            text-align: center;
+            background: #000000;
+            color: #ffffff;
+            border-radius: 12px;
+            border: none;
+        }
+        
+        /* Two column layout */
+        .two-column-layout {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        /* Make both cards equal width */
+        .two-column-layout .modern-card {
+            flex: 1;
+            margin-bottom: 30px;
+        }
+
+        /* Responsive: Stack on smaller screens */
+        @media (max-width: 992px) {
+            .two-column-layout {
+                flex-direction: column;
+            }
+        }
+    </style>
+</h:head>
+
+<h:body>
+<div class="main-container">
+<h:form>
+
+    <!-- COMPANY -->
+    <div class="company-box">
+        <div class="company-name">#{companyBean.company.name}</div>
+        <div class="company-details">
+            #{companyBean.company.streetAddress}<br/>
+            #{companyBean.company.city}<br/>
+            #{companyBean.company.email}<br/>
+            #{companyBean.company.phone}
+        </div>
+    </div>
+
+    <!-- INVOICE INFO -->
+    <div class="modern-card">
+        <div class="section-title">Invoice Info</div>
+
+        <div class="form-section">
+            <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+                <p:outputLabel value="Invoice Number"/>
+                <p:inputText value="#{invoiceBean.invoice.invoiceNumber}" required="true"/>
+            </p:panelGrid>
+        </div>
+    </div>
+
+    <!-- 🔥 CLIENT + DETAILS SIDE BY SIDE -->
+    <div class="two-column-layout">
+
+        <!-- CLIENT -->
+        <div class="modern-card">
+            <div class="section-title">Client Information</div>
+
+            <div class="form-section">
+                <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+                    <p:outputLabel value="Client Name"/>
+                    <p:inputText value="#{invoiceBean.invoice.clientName}"/>
+
+                    <p:outputLabel value="Client Address"/>
+                    <p:inputTextarea value="#{invoiceBean.invoice.clientAddress}" rows="3"/>
+
+                    <p:outputLabel value="Client Phone"/>
+                    <p:inputText value="#{invoiceBean.invoice.clientPhone}"/>
+
+                    <p:outputLabel value="Client Email"/>
+                    <p:inputText value="#{invoiceBean.invoice.clientEmail}"/>
+                </p:panelGrid>
+            </div>
+        </div>
+
+        <!-- DETAILS -->
+        <div class="modern-card">
+            <div class="section-title">Invoice Details</div>
+
+            <div class="form-section">
+                <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+                    <p:outputLabel value="Issue Date"/>
+                    <p:calendar value="#{invoiceBean.invoice.issueDate}"
+                                pattern="yyyy-MM-dd"/>
+
+                    <p:outputLabel value="Due Date"/>
+                    <p:calendar value="#{invoiceBean.invoice.dueDate}"
+                                pattern="yyyy-MM-dd"/>
+
+                    <p:outputLabel value="Tax Rate (%)"/>
+                    <p:inputText value="#{invoiceBean.invoice.taxRate}"/>
+
+                    <p:outputLabel value="Discount"/>
+                    <p:inputText value="#{invoiceBean.invoice.discount}"/>
+
+                    <p:outputLabel value="Terms"/>
+                    <p:inputTextarea value="#{invoiceBean.invoice.terms}" rows="3"/>
+                </p:panelGrid>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ADD ITEM -->
+    <div class="modern-card">
+        <div class="section-title">Add Item</div>
+
+        <div class="form-section">
+            <p:panelGrid columns="4" layout="grid" styleClass="ui-fluid">
+                <p:inputText value="#{invoiceBean.newItem.description}" placeholder="Description"/>
+                <p:inputText value="#{invoiceBean.newItem.hours}" placeholder="Hours"/>
+                <p:inputText value="#{invoiceBean.newItem.rate}" placeholder="Rate"/>
+
+                <p:commandButton value="Add"
+                                 icon="pi pi-plus"
+                                 styleClass="p-button-success"
+                                 actionListener="#{invoiceBean.addItem}"
+                                 update="itemsTable"/>
+            </p:panelGrid>
+        </div>
+    </div>
+
+    <!-- ITEMS TABLE -->
+    <div class="modern-card">
+        <div class="section-title">Invoice Items</div>
+
+        <p:dataTable id="itemsTable"
+                     value="#{invoiceBean.invoice.items}"
+                     var="item">
+
+            <p:column headerText="Description">
+                #{item.description}
+            </p:column>
+
+            <p:column headerText="Hours">
+                #{item.hours}
+            </p:column>
+
+            <p:column headerText="Rate">
+                #{item.rate}
+            </p:column>
+
+            <p:column headerText="Amount">
+                <b>#{item.amount}</b>
+            </p:column>
+
+        </p:dataTable>
+    </div>
+
+    <!-- SAVE -->
+    <p:commandButton value="Generate &amp; Save Invoice"
+                     icon="pi pi-check"
+                     styleClass="p-button-primary save-btn"
+                     action="#{invoiceBean.generateInvoice}"
+                     update="@form"/>
+
+</h:form>
+</div>
+</h:body>
+</html>
