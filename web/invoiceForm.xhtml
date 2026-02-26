@@ -45,12 +45,14 @@
 
         /* Company box */
         .company-box {
-            text-align: right;
+            text-align: left;
             background: linear-gradient(135deg, #000000 0%, #1a0000 40%, #ff2b2b 100%);
             color: #ffffff;
             padding: 18px 22px;
             border-radius: 12px;
             margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .company-name {
@@ -142,9 +144,69 @@
             border: none !important;
             color: #f8f8f8;
         }
+        
+        .existing-section {
+            display: flex;
+            align-items:flex-start;
+        }
 
         .p-button-success:hover {
-            background: #333333 !important;
+            background: #ffffff !important;
+            color: #000000;
+            height: auto; 
+        }
+        
+        /* White company button */
+        .company-btn-white {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 5px !important;
+            padding: 4px 8px !important;
+            transition: all 0.2s ease-in-out;
+            font-size: 14px;
+        }
+        
+        /* Client Grid Layout */
+        .client-grid {
+            row-gap: 18px !important;
+        }
+
+        /* Label column */
+        .label-col {
+            width: 100%;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            color: #333;
+        }
+
+        /* Field column */
+        .field-col {
+            width: 100%;
+        }
+
+        /* Make dropdown full width */
+        .full-width {
+            width: 100% !important;
+        }
+
+        /* Improve textarea spacing */
+        .client-grid textarea {
+            resize: vertical;
+        }
+
+        /* Improve selectOneMenu styling */
+        .p-selectonemenu {
+            width: 100% !important;
+            border-radius: 10px !important;
+            border: 1px solid #cccccc !important;
+        }
+
+        /* Hover effect */
+        .company-btn-white:hover {
+            background: #f2f2f2 !important;
+            color: #000000 !important; /* makes text visible on hover */
         }
 
         /* Save button sizing */
@@ -187,18 +249,24 @@
 
     <!-- COMPANY -->
     <div class="company-box">
-        <div class="company-name">#{companyBean.company.name}</div>
-        <div class="company-details">
-            #{companyBean.company.streetAddress}<br/>
-            #{companyBean.company.city}<br/>
-            #{companyBean.company.email}<br/>
-            #{companyBean.company.phone}
+        <div>
+            <div>
+                <div class="company-name">#{companyBean.company.name}</div>
+                <div class="company-details">
+                    #{companyBean.company.streetAddress}<br/>
+                    #{companyBean.company.city}<br/>
+                    #{companyBean.company.email}<br/>
+                    #{companyBean.company.phone}
+                </div>
+            </div>
+            <div>
+                <p:commandButton value="Edit Company"
+                    icon="pi pi-pencil"
+                    action="companyEdit?faces-redirect=true"
+                    style="margin-top:10px;"
+                    styleClass="company-btn-white"/>
+            </div>
         </div>
-        <p:commandButton value="Edit Company"
-                 icon="pi pi-pencil"
-                 action="companyEdit?faces-redirect=true"
-                 style="margin-top:10px;"
-                 styleClass="p-button-success"/>
     </div>
 
     <!-- INVOICE INFO -->
@@ -221,38 +289,43 @@
             <div class="section-title">Client Information</div>
 
             <div class="form-section">
-                <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+                <p:panelGrid columns="1" 
+                            layout="grid" 
+                            columnClasses="label-col,field-col"
+                            styleClass="ui-fluid client-grid">
 
-                    <!-- Existing Client Dropdown -->
-                    <p:outputLabel value="Select Existing Client"/>
-                    <p:selectOneMenu value="#{invoiceBean.selectedClientId}" 
-                                     style="width:100%">
-                        <f:selectItem itemLabel="-- New Client --" itemValue="#{null}" />
-                        <f:selectItems value="#{clientBean.clients}"
-                                       var="client"
-                                       itemLabel="#{client.name}"
-                                       itemValue="#{client.id}" />
-                    </p:selectOneMenu>
+                   <!-- Existing Client -->
+                   <p:outputLabel value="Select Existing Client"/>
+                   <p:selectOneMenu value="#{invoiceBean.selectedClientId}">
+                       <f:selectItem itemLabel="-- New Client --" itemValue="#{null}" />
+                       <f:selectItems value="#{clientBean.clients}"
+                                      var="client"
+                                      itemLabel="#{client.name}"
+                                      itemValue="#{client.id}" />
+                   </p:selectOneMenu>
 
-                    <!-- New Client Fields -->
-                    <p:outputLabel value="Client Name"/>
-                    <p:inputText value="#{invoiceBean.newClient.name}"
-                                 disabled="#{invoiceBean.selectedClientId != null}"/>
+                   <!-- Name -->
+                   <p:outputLabel value="Client Name"/>
+                   <p:inputText value="#{invoiceBean.newClient.name}"
+                                disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Address"/>
-                    <p:inputTextarea value="#{invoiceBean.newClient.address}"
-                                     rows="3"
-                                     disabled="#{invoiceBean.selectedClientId != null}"/>
+                   <!-- Address -->
+                   <p:outputLabel value="Address"/>
+                   <p:inputTextarea value="#{invoiceBean.newClient.address}"
+                                    rows="3"
+                                    disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Phone"/>
-                    <p:inputText value="#{invoiceBean.newClient.phone}"
-                                 disabled="#{invoiceBean.selectedClientId != null}"/>
+                   <!-- Phone -->
+                   <p:outputLabel value="Phone"/>
+                   <p:inputText value="#{invoiceBean.newClient.phone}"
+                                disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Email"/>
-                    <p:inputText value="#{invoiceBean.newClient.email}"
-                                 disabled="#{invoiceBean.selectedClientId != null}"/>
+                   <!-- Email -->
+                   <p:outputLabel value="Email"/>
+                   <p:inputText value="#{invoiceBean.newClient.email}"
+                                disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                </p:panelGrid>
+               </p:panelGrid>
             </div>
         </div>
 
