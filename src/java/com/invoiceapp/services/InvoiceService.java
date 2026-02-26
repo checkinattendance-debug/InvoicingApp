@@ -12,32 +12,47 @@ public class InvoiceService {
     @PersistenceContext(unitName = "invoicingAppPU")
     private EntityManager em;
 
-    // Save new invoice OR update existing one
     public Invoice saveInvoice(Invoice invoice) {
+
+        // Ensure bidirectional relationship is set
+        if (invoice.getItems() != null) {
+            invoice.getItems().forEach(item -> {
+                item.setInvoice(invoice);
+            });
+        }
+
         if (invoice.getId() == null) {
-            em.persist(invoice);   // New invoice
+            em.persist(invoice);
             return invoice;
         } else {
-            return em.merge(invoice);  // Update existing invoice
+            return em.merge(invoice);
         }
     }
 
-    // Find invoice by ID
     public Invoice findById(Long id) {
         return em.find(Invoice.class, id);
     }
 
-    // Get all invoices
     public List<Invoice> findAll() {
-        return em.createQuery("SELECT i FROM Invoice i", Invoice.class)
-                 .getResultList();
+        return em.createQuery(
+                "SELECT i FROM Invoice i ORDER BY i.issueDate DESC",
+                Invoice.class)
+                .getResultList();
     }
 
-    // Delete invoice
     public void delete(Long id) {
         Invoice invoice = em.find(Invoice.class, id);
         if (invoice != null) {
             em.remove(invoice);
         }
+    }
+
+    // NEW: find invoices by client
+    public List<Invoice> findByClient(Long clientId) {
+        return em.createQuery(
+                "SELECT i FROM Invoice i WHERE i.client.id = :clientId",
+                Invoice.class)
+                .setParameter("clientId", clientId)
+                .getResultList();
     }
 }

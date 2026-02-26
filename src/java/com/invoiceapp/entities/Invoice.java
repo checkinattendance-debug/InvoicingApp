@@ -17,7 +17,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,12 +34,7 @@ public class Invoice implements Serializable {
     private Long id;
 
     private String invoiceNumber;
-    private String clientName;
     private Double taxRate;
-
-    private String clientAddress;
-    private String clientPhone;
-    private String clientEmail;
 
     @Temporal(TemporalType.DATE)
     private Date issueDate;
@@ -56,6 +53,14 @@ public class Invoice implements Serializable {
 
     @OneToMany(mappedBy="invoice", cascade=CascadeType.ALL)
     private List<InvoiceItem> items = new ArrayList<>();
+    
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 
     public void setId(Long id) {
         this.id = id;
@@ -63,10 +68,6 @@ public class Invoice implements Serializable {
 
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 
     public void setTaxRate(Double taxRate) {
@@ -87,24 +88,8 @@ public class Invoice implements Serializable {
         return invoiceNumber;
     }
 
-    public String getClientName() {
-        return clientName;
-    }
-
     public Double getTaxRate() {
         return taxRate;
-    }
-
-    public String getClientAddress() {
-        return clientAddress;
-    }
-
-    public String getClientPhone() {
-        return clientPhone;
-    }
-
-    public String getClientEmail() {
-        return clientEmail;
     }
 
     public Double getDiscount() {
@@ -117,18 +102,6 @@ public class Invoice implements Serializable {
 
     public List<InvoiceItem> getItems() {
         return items;
-    }
-
-    public void setClientAddress(String clientAddress) {
-        this.clientAddress = clientAddress;
-    }
-
-    public void setClientPhone(String clientPhone) {
-        this.clientPhone = clientPhone;
-    }
-
-    public void setClientEmail(String clientEmail) {
-        this.clientEmail = clientEmail;
     }
 
     public void setDiscount(Double discount) {
@@ -178,5 +151,23 @@ public class Invoice implements Serializable {
     public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+    
+    
     
 }

@@ -6,6 +6,7 @@
 package com.invoiceapp.services;
 
 import com.invoiceapp.entities.Company;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,12 +18,24 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class CompanyService {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "invoicingAppPU")
     private EntityManager em;
 
     public Company getCompanyProfile() {
-        return em.createQuery("SELECT c FROM Company c", Company.class)
-                 .setMaxResults(1)
-                 .getSingleResult();
+        List<Company> companies = em.createQuery(
+                "SELECT c FROM Company c", Company.class)
+                .setMaxResults(1)
+                .getResultList();
+
+        return companies.isEmpty() ? null : companies.get(0);
+    }
+
+    public Company save(Company company) {
+        if (company.getId() == null) {
+            em.persist(company);
+            return company;
+        } else {
+            return em.merge(company);
+        }
     }
 }

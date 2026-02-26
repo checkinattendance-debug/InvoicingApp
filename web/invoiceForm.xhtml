@@ -194,6 +194,11 @@
             #{companyBean.company.email}<br/>
             #{companyBean.company.phone}
         </div>
+        <p:commandButton value="Edit Company"
+                 icon="pi pi-pencil"
+                 action="companyEdit?faces-redirect=true"
+                 style="margin-top:10px;"
+                 styleClass="p-button-success"/>
     </div>
 
     <!-- INVOICE INFO -->
@@ -217,17 +222,36 @@
 
             <div class="form-section">
                 <p:panelGrid columns="2" layout="grid" styleClass="ui-fluid">
+
+                    <!-- Existing Client Dropdown -->
+                    <p:outputLabel value="Select Existing Client"/>
+                    <p:selectOneMenu value="#{invoiceBean.selectedClientId}" 
+                                     style="width:100%">
+                        <f:selectItem itemLabel="-- New Client --" itemValue="#{null}" />
+                        <f:selectItems value="#{clientBean.clients}"
+                                       var="client"
+                                       itemLabel="#{client.name}"
+                                       itemValue="#{client.id}" />
+                    </p:selectOneMenu>
+
+                    <!-- New Client Fields -->
                     <p:outputLabel value="Client Name"/>
-                    <p:inputText value="#{invoiceBean.invoice.clientName}"/>
+                    <p:inputText value="#{invoiceBean.newClient.name}"
+                                 disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Client Address"/>
-                    <p:inputTextarea value="#{invoiceBean.invoice.clientAddress}" rows="3"/>
+                    <p:outputLabel value="Address"/>
+                    <p:inputTextarea value="#{invoiceBean.newClient.address}"
+                                     rows="3"
+                                     disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Client Phone"/>
-                    <p:inputText value="#{invoiceBean.invoice.clientPhone}"/>
+                    <p:outputLabel value="Phone"/>
+                    <p:inputText value="#{invoiceBean.newClient.phone}"
+                                 disabled="#{invoiceBean.selectedClientId != null}"/>
 
-                    <p:outputLabel value="Client Email"/>
-                    <p:inputText value="#{invoiceBean.invoice.clientEmail}"/>
+                    <p:outputLabel value="Email"/>
+                    <p:inputText value="#{invoiceBean.newClient.email}"
+                                 disabled="#{invoiceBean.selectedClientId != null}"/>
+
                 </p:panelGrid>
             </div>
         </div>

@@ -19,20 +19,19 @@ import javax.persistence.Table;
  * @author MEDIO
  */
 @Entity
-@Table(name = "company")
-public class Company implements Serializable {
+@Table(name = "client")
+public class Client implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String streetAddress;
-    private String city;
+    private String address;
     private String phone;
     private String email;
-    
-    @OneToMany(mappedBy = "company")
+
+    @OneToMany(mappedBy = "client")
     private List<Invoice> invoices;
 
     // getters and setters
@@ -45,12 +44,8 @@ public class Company implements Serializable {
         return name;
     }
 
-    public String getStreetAddress() {
-        return streetAddress;
-    }
-
-    public String getCity() {
-        return city;
+    public String getAddress() {
+        return address;
     }
 
     public String getPhone() {
@@ -61,6 +56,10 @@ public class Company implements Serializable {
         return email;
     }
 
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -69,12 +68,8 @@ public class Company implements Serializable {
         this.name = name;
     }
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setPhone(String phone) {
@@ -85,15 +80,9 @@ public class Company implements Serializable {
         this.email = email;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
-    }
-
     public void setInvoices(List<Invoice> invoices) {
         this.invoices = invoices;
     }
-    
-    
     
     
 }
