@@ -3,61 +3,139 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-
 <h:head>
     <title>Invoice View</title>
+
     <style>
-        .company-header {
+        body {
+            background: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #111111;
+        }
+
+        .invoice-container {
+            width: 900px;
+            margin: 40px auto;
+        }
+
+        /* Header (matches form page) */
+        .invoice-header {
+            background: #000000;
+            color: #ffffff;
+            padding: 30px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+        }
+
+        .invoice-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0;
+            color: #ff2b2b;
+            letter-spacing: 1px;
+        }
+
+        .company-box {
             text-align: right;
-            padding: 15px 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            width: fit-content;
-            margin-left: auto;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-top: 15px;
         }
 
         .company-name {
-            margin: 0;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
-            color: #2c3e50;
+            color: #ffffff;
         }
 
         .company-details {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #555;
+            font-size: 13px;
             line-height: 1.6;
+            color: #dddddd;
+        }
+
+        /* Info section */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-section b {
+            color: #c00000;
+        }
+
+        /* DataTable styling */
+        .p-datatable {
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+        }
+
+        .p-datatable thead th {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: none !important;
+        }
+
+        .p-datatable tbody tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        /* Totals section */
+        .totals-box {
+            width: 350px;
+            margin-left: auto;
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid #e5e5e5;
+            background: #ffffff;
+            text-align: right;
+        }
+
+        .totals-box h2 {
+            color: #c00000;
+            margin-top: 10px;
+        }
+
+        /* Footer */
+        .invoice-footer {
+            margin-top: 50px;
+            background: #000000;
+            color: #ffffff;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 500;
         }
     </style>
 </h:head>
 
 <h:body>
-
 <h:form>
 
-<div style="width:800px;margin:auto;font-family:Arial;">
+<div class="invoice-container">
 
-    <!-- Header -->
-    <div style="background:#1f5f73;color:white;padding:20px;">
-        <h1>INVOICE</h1>
-        <div class="company-header">
-            <h2 class="company-name">#{companyBean.company.name}</h2>
+    <!-- HEADER -->
+    <div class="invoice-header">
+        <div class="invoice-title">INVOICE</div>
 
-            <p class="company-details">
+        <div class="company-box">
+            <div class="company-name">#{companyBean.company.name}</div>
+            <div class="company-details">
                 #{companyBean.company.streetAddress}<br/>
                 #{companyBean.company.city}<br/>
                 #{companyBean.company.email}<br/>
                 #{companyBean.company.phone}
-            </p>
+            </div>
         </div>
     </div>
 
-    <br/>
-
-    <!-- Client Section -->
-    <div style="display:flex;justify-content:space-between;">
+    <!-- CLIENT + META INFO -->
+    <div class="info-section">
         <div>
             <b>Invoice No:</b> #{invoiceBean.invoice.invoiceNumber}<br/>
             <b>Date of Issue:</b> #{invoiceBean.invoice.issueDate}<br/>
@@ -65,7 +143,7 @@
         </div>
 
         <div>
-            <b>Bill To</b><br/>
+            <b>Bill To</b><br/><br/>
             #{invoiceBean.invoice.clientName}<br/>
             #{invoiceBean.invoice.clientAddress}<br/>
             #{invoiceBean.invoice.clientPhone}<br/>
@@ -73,9 +151,7 @@
         </div>
     </div>
 
-    <br/>
-
-    <!-- Items -->
+    <!-- ITEMS -->
     <p:dataTable value="#{invoiceBean.invoice.items}" var="item">
         <p:column headerText="Description">#{item.description}</p:column>
         <p:column headerText="Hours">#{item.hours}</p:column>
@@ -83,26 +159,21 @@
         <p:column headerText="Amount">#{item.amount}</p:column>
     </p:dataTable>
 
-    <br/>
-
-    <!-- Totals -->
-    <div style="float:right;text-align:right;">
+    <!-- TOTALS -->
+    <div class="totals-box">
         Subtotal: #{invoiceBean.subtotal} <br/>
         Discount: #{invoiceBean.invoice.discount} <br/>
         Tax: #{invoiceBean.tax} <br/>
         <h2>Total: #{invoiceBean.total}</h2>
     </div>
 
-    <div style="clear:both;"></div>
-
-    <br/><br/>
-    <div style="background:#1f5f73;color:white;padding:10px;text-align:center;">
+    <!-- FOOTER -->
+    <div class="invoice-footer">
         Thank you for your business!
     </div>
 
 </div>
 
 </h:form>
-
 </h:body>
 </html>
