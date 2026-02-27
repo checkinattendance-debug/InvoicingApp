@@ -289,44 +289,56 @@
             <div class="section-title">Client Information</div>
 
             <div class="form-section">
-                <p:panelGrid columns="1" 
-                            layout="grid" 
-                            columnClasses="label-col,field-col"
-                            styleClass="ui-fluid client-grid">
 
-                   <!-- Existing Client -->
-                   <p:outputLabel value="Select Existing Client"/>
-                   <p:selectOneMenu value="#{invoiceBean.selectedClientId}">
-                       <f:selectItem itemLabel="-- New Client --" itemValue="#{null}" />
-                       <f:selectItems value="#{clientBean.clients}"
-                                      var="client"
-                                      itemLabel="#{client.name}"
-                                      itemValue="#{client.id}" />
-                   </p:selectOneMenu>
+                <h:panelGroup id="clientPanel">
 
-                   <!-- Name -->
-                   <p:outputLabel value="Client Name"/>
-                   <p:inputText value="#{invoiceBean.newClient.name}"
-                                disabled="#{invoiceBean.selectedClientId != null}"/>
+                    <p:panelGrid columns="1"
+                                 layout="grid"
+                                 styleClass="ui-fluid client-grid">
 
-                   <!-- Address -->
-                   <p:outputLabel value="Address"/>
-                   <p:inputTextarea value="#{invoiceBean.newClient.address}"
-                                    rows="3"
-                                    disabled="#{invoiceBean.selectedClientId != null}"/>
+                        <!-- Existing Client -->
+                        <p:outputLabel value="Select Existing Client"/>
 
-                   <!-- Phone -->
-                   <p:outputLabel value="Phone"/>
-                   <p:inputText value="#{invoiceBean.newClient.phone}"
-                                disabled="#{invoiceBean.selectedClientId != null}"/>
+                        <p:selectOneMenu value="#{invoiceBean.selectedClientId}">
 
-                   <!-- Email -->
-                   <p:outputLabel value="Email"/>
-                   <p:inputText value="#{invoiceBean.newClient.email}"
-                                disabled="#{invoiceBean.selectedClientId != null}"/>
+                            <f:selectItem itemLabel="-- New Client --" itemValue="#{null}" />
 
-               </p:panelGrid>
+                            <f:selectItems value="#{clientBean.clients}"
+                                           var="client"
+                                           itemLabel="#{client.name}"
+                                           itemValue="#{client.id}" />
+
+                            <p:ajax listener="#{invoiceBean.onClientSelect}"
+                                    update="clientPanel" />
+                        </p:selectOneMenu>
+
+                        <!-- Name -->
+                        <p:outputLabel value="Client Name"/>
+                        <p:inputText value="#{invoiceBean.newClient.name}"
+                                     disabled="#{invoiceBean.selectedClientId != null}"/>
+
+                        <!-- Address -->
+                        <p:outputLabel value="Address"/>
+                        <p:inputTextarea value="#{invoiceBean.newClient.address}"
+                                         rows="3"
+                                         disabled="#{invoiceBean.selectedClientId != null}"/>
+
+                        <!-- Phone -->
+                        <p:outputLabel value="Phone"/>
+                        <p:inputText value="#{invoiceBean.newClient.phone}"
+                                     disabled="#{invoiceBean.selectedClientId != null}"/>
+
+                        <!-- Email -->
+                        <p:outputLabel value="Email"/>
+                        <p:inputText value="#{invoiceBean.newClient.email}"
+                                     disabled="#{invoiceBean.selectedClientId != null}"/>
+
+                    </p:panelGrid>
+
+                </h:panelGroup>
+
             </div>
+        </div>
         </div>
 
         <!-- DETAILS -->
@@ -355,8 +367,6 @@
             </div>
         </div>
 
-    </div>
-
     <!-- ADD ITEM -->
     <div class="modern-card">
         <div class="section-title">Add Item</div>
@@ -382,7 +392,8 @@
 
         <p:dataTable id="itemsTable"
                      value="#{invoiceBean.invoice.items}"
-                     var="item">
+                     var="item"
+                     editable="true">
 
             <p:column headerText="Description">
                 #{item.description}
@@ -398,6 +409,17 @@
 
             <p:column headerText="Amount">
                 <b>#{item.amount}</b>
+            </p:column>
+
+            <!-- REMOVE BUTTON COLUMN -->
+            <p:column headerText="Actions">
+                <p:commandButton icon="pi pi-trash"
+                                 value="Remove"
+                                 title="Remove Item"
+                                 styleClass="p-button-danger"
+                                 actionListener="#{invoiceBean.removeItem(item)}"
+                                 update="itemsTable"
+                                 process="@this"/>
             </p:column>
 
         </p:dataTable>

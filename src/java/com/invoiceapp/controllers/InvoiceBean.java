@@ -76,6 +76,47 @@ public class InvoiceBean implements Serializable {
 
         return "invoiceView?faces-redirect=true";
     }
+    
+    public void onClientSelect() {
+
+        if (selectedClientId != null) {
+
+            Client existing = clientService.findById(selectedClientId);
+
+            if (existing != null) {
+                newClient.setName(existing.getName());
+                newClient.setAddress(existing.getAddress());
+                newClient.setPhone(existing.getPhone());
+                newClient.setEmail(existing.getEmail());
+            }
+
+        } else {
+            // Reset for new client
+            newClient = new Client();
+        }
+    }
+    
+    public Long getSelectedClientId() {
+        return selectedClientId;
+    }
+
+    public void setSelectedClientId(Long selectedClientId) {
+        this.selectedClientId = selectedClientId;
+    }
+
+    public Client getNewClient() {
+        return newClient;
+    }
+
+    public void setNewClient(Client newClient) {
+        this.newClient = newClient;
+    }
+    
+    public void removeItem(InvoiceItem item) {
+        if (invoice != null && invoice.getItems() != null) {
+            invoice.getItems().remove(item);
+        }
+    }
 
     // ===== Calculations =====
 
@@ -100,14 +141,4 @@ public class InvoiceBean implements Serializable {
 
     public Invoice getInvoice() { return invoice; }
     public InvoiceItem getNewItem() { return newItem; }
-    public Long getSelectedClientId() { return selectedClientId; }
-    public Client getNewClient() { return newClient; }
-
-    public void setSelectedClientId(Long selectedClientId) {
-        this.selectedClientId = selectedClientId;
-    }
-
-    public void setNewClient(Client newClient) {
-        this.newClient = newClient;
-    }
 }

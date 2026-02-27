@@ -1432,8 +1432,9 @@ exists or setup the property manually. For example like this:
         <echo message="Warning: unable to delete some files in ${build.web.dir}/WEB-INF/lib - they are probably locked by the J2EE server. "/>
         <echo level="info" message="To delete all files undeploy the module from Server Registry in Runtime tab and then use Clean again."/>
     </target>
-    <target depends="init" if="netbeans.home" name="undeploy-clean">
-        <nbundeploy failOnError="false" startServer="false"/>
+    <target depends="init" name="undeploy-clean">
+        <!-- <nbundeploy failOnError="false" startServer="false"/> -->
+        <echo message="Skipping nbundeploy - not running inside NetBeans"/>
     </target>
     <target name="-post-clean">
         <!-- Empty placeholder for easier customization. -->
