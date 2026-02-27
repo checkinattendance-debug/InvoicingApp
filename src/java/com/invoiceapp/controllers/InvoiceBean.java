@@ -10,6 +10,7 @@ import com.invoiceapp.services.InvoiceService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -116,6 +117,10 @@ public class InvoiceBean implements Serializable {
         if (invoice != null && invoice.getItems() != null) {
             invoice.getItems().remove(item);
         }
+    }
+    
+    public List<Invoice> getAllInvoices() {
+        return invoiceService.findAll();
     }
 
     // ===== Calculations =====

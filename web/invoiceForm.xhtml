@@ -249,24 +249,35 @@
 
     <!-- COMPANY -->
     <div class="company-box">
+
+        <!-- LEFT: Company Info -->
         <div>
-            <div>
-                <div class="company-name">#{companyBean.company.name}</div>
-                <div class="company-details">
-                    #{companyBean.company.streetAddress}<br/>
-                    #{companyBean.company.city}<br/>
-                    #{companyBean.company.email}<br/>
-                    #{companyBean.company.phone}
-                </div>
-            </div>
-            <div>
-                <p:commandButton value="Edit Company"
-                    icon="pi pi-pencil"
-                    action="companyEdit?faces-redirect=true"
-                    style="margin-top:10px;"
-                    styleClass="company-btn-white"/>
+            <div class="company-name">#{companyBean.company.name}</div>
+            <div class="company-details">
+                #{companyBean.company.streetAddress}<br/>
+                #{companyBean.company.city}<br/>
+                #{companyBean.company.email}<br/>
+                #{companyBean.company.phone}
             </div>
         </div>
+
+        <!-- RIGHT: Action Buttons -->
+        <div style="display:flex; flex-direction:column; gap:10px; align-items:flex-end;">
+
+            <!-- View All Invoices Button -->
+            <p:commandButton value="View Invoices"
+                             icon="pi pi-list"
+                             action="invoiceList?faces-redirect=true"
+                             styleClass="company-btn-white"/>
+
+            <!-- Edit Company Button -->
+            <p:commandButton value="Edit Company"
+                             icon="pi pi-pencil"
+                             action="companyEdit?faces-redirect=true"
+                             styleClass="company-btn-white"/>
+
+        </div>
+
     </div>
 
     <!-- INVOICE INFO -->
